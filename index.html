@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>OTB Checker</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .input-field { display: block; margin: 10px 0; }
+    .result { margin-top: 20px; font-weight: bold; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>OTB Checker</h1>
+
+  <div class="input-field">
+    <label>PIN (last 4 digits):
+      <input type="text" id="pinInput" />
+    </label>
+  </div>
+
+  <div class="input-field">
+    <label>OTB (from the customer):
+      <input type="text" id="otbInput" />
+    </label>
+  </div>
+
+  <button onclick="checkOTB()">Check</button>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    function checkOTB() {
+      const pinStr = document.getElementById('pinInput').value.trim();
+      const otbStr = document.getElementById('otbInput').value.trim();
+
+      // Convert inputs to numbers
+      const pin = parseFloat(pinStr);
+      const userOTB = parseFloat(otbStr);
+
+      if (isNaN(pin) || isNaN(userOTB)) {
+        document.getElementById('result').textContent = 'Please enter valid numbers!';
+        document.getElementById('result').className = 'result incorrect';
+        return;
+      }
+
+      // Example formula: (PIN / 300) * 4
+      // Adjust to match your actual formula
+      const computedOTB = (pin / 300) * 4;
+
+      // If you want an exact match with no decimals, you can round or compare with tolerance
+      // e.g., let threshold = 0.00001; check absolute difference
+      if (Math.abs(userOTB - computedOTB) < 0.00001) {
+        document.getElementById('result').textContent = '✓ Correct';
+        document.getElementById('result').className = 'result correct';
+      } else {
+        document.getElementById('result').textContent = 'X Incorrect';
+        document.getElementById('result').className = 'result incorrect';
+      }
+    }
+  </script>
+</body>
+</html>
